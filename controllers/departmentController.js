@@ -20,6 +20,13 @@ exports.setManager=catchAsync(async(req,res,next)=>{
   if(!employe||!department){
     return new AppError("Employee or Department is not found",404)
   }
+  if(department.manager!='none'){
+    const exmanger = await employee.find({ 'empID': department.manager });
+    if (exmanger.length > 0) {
+      exmanger[0].role = 'employee';
+      await exmanger[0].save();
+    }
+  }
   if (employe.yearsOfExperience<5){
     return new AppError('Employee is Not Eligible for promotion',401)
   }

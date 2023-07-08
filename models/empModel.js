@@ -58,10 +58,6 @@ employeeSchema.post(['find', 'findOne', 'findById'], function (result, next) {
       const joinYear = employee.dateOfJoining.getFullYear();
       employee.yearsOfExperience = currentYear - joinYear;
     });
-  } else {
-    const currentYear = new Date().getFullYear();
-    const joinYear = result.dateOfJoining.getFullYear();
-    result.yearsOfExperience = currentYear - joinYear;
   }
   next();
 });
