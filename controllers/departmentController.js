@@ -24,6 +24,8 @@ exports.setManager=catchAsync(async(req,res,next)=>{
     return new AppError('Employee is Not Eligible for promotion',401)
   }
   department.manager=employe.empID;
+  employe.role='Manager';
+  await employe.save();
   await department.save();
   res.status(200).json({
     status:'sucess',
