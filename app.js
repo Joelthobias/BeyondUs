@@ -10,9 +10,8 @@ const cookieParser = require('cookie-parser')
 const Handlebars = require('handlebars')
 
 const AppError = require('./utils/appError');
-const authController = require('./controlers/authController');
 
-const globalErrorHandler = require('./controlers/errorController');
+const globalErrorHandler = require('./controllers/errorController');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -22,17 +21,9 @@ app.set('view engine', 'hbs');
 app.use(helmet());
 
 
-const viewRoter = require('./routes/viewRoute');
-const tourRouter = require('./routes/tourRoutes');
+// const departmentRouter = require('./routes/departmentRoutes');
+const employeeRouter = require('./routes/employeeRoutes');
 
-
-// Limits requests from Same IP
-const limiter = rateLimit({
-    max: 100,
-    windowMS: 60 * 60 * 1000,
-    message: 'Too many requests from this IP plese try again after a hour '
-});
-app.use('/api', limiter);
 
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
@@ -52,24 +43,11 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Prevent Parameter Pollution
-app.use(hpp({
-    whitelist: [
-        'duration',
-        'ratingsAverage',
-        'ratingsQuantity',
-        'maxGroupSize',
-        'difficulty',
-        'price'
-    ]
-}));
-// app.use((req,res,next)=>{
-// console.log(req.cookies);
-// next();
-// })
 
-app.use('/', viewRoter);
-app.use('/api/v1/tours', tourRouter);
-app.use('/api/v1/users', userRouter);
+
+
+app.use('/api/v1/employees', employeeRouter);
+// app.use('/api/v1/deaprtment', departmentRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${

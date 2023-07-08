@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const validator=require('validator');
-const bcrypt=require('bcrypt');
-const crypto=require('crypto')
 
 
 const employeeSchema = new mongoose.Schema({
@@ -27,7 +25,7 @@ const employeeSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [validator.isEmail, 'Please Provide a Email'],
+    required: [true, 'Please Provide a Email'],
     unique: [true, 'Email alerdy registerd'],
     trim: true,
     lowercase: true,
@@ -43,19 +41,23 @@ const employeeSchema = new mongoose.Schema({
   department: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Department' 
-  },
-  passwordResetExpires:Date,
+  }
 });
 
-employeeSchema.pre(/^find/, function(next) {
-  const currentYear = new Date().getFullYear();
-  this.forEach(employee => {
-    const joinYear = employee.dateOfJoining.getFullYear();
-    employee.yearsOfExperience = currentYear - joinYear;
-  });
+employeeSchema.post(['find', 'findOne', 'findById'], function (result, next) {
+  if (Array.isArray(result)) {
+    result.forEach((employee) => {
+      const currentYear = new Date().getFullYear();
+      const joinYear = employee.dateOfJoining.getFullYear();
+      employee.yearsOfExperience = currentYear - joinYear;
+    });
+  } else {
+    const currentYear = new Date().getFullYear();
+    const joinYear = result.dateOfJoining.getFullYear();
+    result.yearsOfExperience = currentYear - joinYear;
+  }
   next();
 });
-
 
 const employee = mongoose.model('Employee', employeeSchema);
 
