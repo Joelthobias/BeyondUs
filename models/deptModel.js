@@ -11,7 +11,7 @@ const departmentSchema = new mongoose.Schema({
         maxlength: [50, 'The name cannot exceed 50 characters.']
     },
     deptID: {
-        type: String,
+        type: Number,
         required: [true, 'A Department must have a ID.'],
         unique:[true,'Department ID cant be duplicated']
     },

@@ -43,6 +43,12 @@ const employeeSchema = new mongoose.Schema({
     ref: 'Department' 
   }
 });
+  employeeSchema.pre('save', function(next) {
+    const currentYear = new Date().getFullYear();
+    const joinYear = this.dateOfJoining.getFullYear();
+    this.yearsOfExperience = currentYear - joinYear;
+    next();
+  });
 
 employeeSchema.post(['find', 'findOne', 'findById'], function (result, next) {
   if (Array.isArray(result)) {

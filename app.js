@@ -21,7 +21,7 @@ app.set('view engine', 'hbs');
 app.use(helmet());
 
 
-// const departmentRouter = require('./routes/departmentRoutes');
+const departmentRouter = require('./routes/departmentRoutes');
 const employeeRouter = require('./routes/employeeRoutes');
 
 
@@ -47,7 +47,7 @@ app.use(xss());
 
 
 app.use('/api/v1/employees', employeeRouter);
-// app.use('/api/v1/deaprtment', departmentRouter);
+app.use('/api/v1/deaprtment', departmentRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${
