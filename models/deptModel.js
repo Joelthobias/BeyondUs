@@ -16,8 +16,9 @@ const departmentSchema = new mongoose.Schema({
         unique:[true,'Department ID cant be duplicated']
     },
     manager: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Employee' 
+        type: 'String', 
+        ref: 'Employee',
+        default:'none'
     },
     location:{
         type:String,

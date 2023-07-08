@@ -10,5 +10,5 @@ router.route('/:id')
     .get(departmentController.viewDeptInfo)
     .delete(departmentController.deleteDept)
     .patch(departmentController.updateDept)
-
+router.post('/:DeptID/assignManager/:EmpID',departmentController.setManager)
 module.exports = router;

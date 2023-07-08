@@ -39,8 +39,9 @@ const employeeSchema = new mongoose.Schema({
     default: 'employee'
   },
   department: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Department' 
+    type: Number, 
+    ref: 'Department',
+    default:0
   }
 });
   employeeSchema.pre('save', function(next) {

@@ -1,4 +1,5 @@
 const employee = require('../models/empModel');
+const Dept = require('../models/deptModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -12,6 +13,21 @@ exports.insertEmployee = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.assignDepartment=catchAsync(async(req,res,next)=>{
+  const emp=req.params.empId;
+  const dept=req.params.deptId;
+  const employe=await employee.findById(emp);
+  const department=await Dept.findById(dept);
+  if(!employe||!department){
+    return new AppError("Employee or Department is not found",404)
+  }
+  employe.department=department.deptID;
+  await employe.save();
+  res.status(200).json({
+    status:'Sucess',
+    employe
+  })
+})
 exports.viewAllEmployees = catchAsync(async (req, res, next) => {
   const employees = await employee.find();
   // if(!employees){

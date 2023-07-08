@@ -1,4 +1,5 @@
 const dept = require('../models/deptModel');
+const employee = require('../models/empModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -11,6 +12,25 @@ exports.AddDepartment = catchAsync(async (req, res, next) => {
     }
   });
 });
+exports.setManager=catchAsync(async(req,res,next)=>{
+  const emp=req.params.EmpID;
+  const Dept=req.params.DeptID;
+  const employe=await employee.findById(emp);
+  const department=await dept.findById(Dept);
+  if(!employe||!department){
+    return new AppError("Employee or Department is not found",404)
+  }
+  if (employe.yearsOfExperience<5){
+    return new AppError('Employee is Not Eligible for promotion',401)
+  }
+  department.manager=employe.empID;
+  await department.save();
+  res.status(200).json({
+    status:'sucess',
+    department
+  })
+
+})
 exports.viewAllDepts = catchAsync(async (req, res, next) => {
   const departments = await dept.find();
   if(!departments){

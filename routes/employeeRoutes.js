@@ -10,5 +10,5 @@ router.route('/:id')
     .get(employeeController.viewEmployee)
     .delete(employeeController.deleteEmployee)
     .patch(employeeController.updateEmployee)
-
+router.post('/:empId/assignDept/:deptId',employeeController.assignDepartment)
 module.exports = router;
