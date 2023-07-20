@@ -20,7 +20,7 @@ app.set('view engine', 'hbs');
 // Security - HTTPS header
 app.use(helmet());
 
-
+const viewRouter=require('./routes/viewRoutes');
 const departmentRouter = require('./routes/departmentRoutes');
 const employeeRouter = require('./routes/employeeRoutes');
 
@@ -45,9 +45,9 @@ app.use(xss());
 // Prevent Parameter Pollution
 
 
-
-app.use('/api/v1/employees', employeeRouter);
+app.use('/', viewRouter);
 app.use('/api/v1/deaprtment', departmentRouter);
+app.use('/api/v1/employees', employeeRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${

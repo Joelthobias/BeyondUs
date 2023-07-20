@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="me-auto actions">
+        <a class="btn btn-primary p-2 my-2 mx-2" href="#" role="button">ADD Employee</a>
+        <a class="btn btn-primary p-2 my-2 mx-2" href="#" role="button">View By Department</a>
+    </div>
+     <table class="table table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Employee ID</th>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Email</th>
+          <th>Expereince</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each employees}}
+            <tr onclick="redirectTo('employee/{{this._id}}')">
+                <td>{{this.empID}} </td>
+                <td> {{this.name}}</td>
+                <td> {{this.department}}</td>
+                <td> {{this.email}}</td>
+                <td> {{this.yearsOfExperience}}</td>
+            </tr>
+        {{/each}}
+     </tbody>
+    </table>
+  </div>
+    <script>
+        function redirectTo(url) {
+        window.location.href = url;
+        }
+    </script>
